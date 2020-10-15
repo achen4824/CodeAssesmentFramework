@@ -1,0 +1,32 @@
+
+html {
+    /* These dont change with dark mode */
+    --background-focus: #696969;
+    --foreground-focus: #e9e9e9;
+    --brand-dark: #4D9D37;
+    --brand-light: #69d44b;
+
+    /* Changes with dark mode. */
+    --background-secondary: #EBEBEB;
+    --foreground-secondary: #404040;
+
+    --background-primary: #fff;
+    --foreground-primary: #606060;
+
+    --scroll-1: #DBDBDB;
+    --scroll-2: #f9f9f9;
+
+    --inverse-foreground-primary: #acacac;
+}
+html[page-theme='dark'] {
+    --background-secondary: #25282C;
+    --foreground-secondary: #e9e9e9;
+
+    --background-primary: #333;
+    --foreground-primary: #999999;
+
+    --scroll-1: #606060;
+    --scroll-2: #999999;
+
+    --inverse-foreground-primary: rgb(194, 194, 194);
+}

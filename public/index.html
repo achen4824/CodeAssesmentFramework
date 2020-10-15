@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Login Page</title>
+	<meta charset="utf-8">
+	<meta name="description" content="MapTek Coding Assessment Homepage">
+	<!-- jQuery CDN -->
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+	<script src="javascripts/bootstrap.min.js" defer></script>
+
+	<!-- Style Sheet -->
+	<link rel="stylesheet" type="text/css" href="stylesheets/index.css">
+
+	<!-- Check if a candidate is already logged in -->
+	<script>
+		function checkLogin() {
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        window.location.href = "/candidate_landing.html";
+      }
+    };
+    // Open connection
+    xhttp.open("GET", "/candidate/info.json", true);
+    // Send request
+    xhttp.send();
+	}
+	</script>
+
+</head>
+<body onload="checkLogin()">
+	<!-- Navigation bar -->
+	<nav class="nav navbar navbar-expand-sm bg-dark navbar-dark">
+		<!-- Brand -->
+		<a href="/" style="overflow: visible; padding-top: 2%; margin-left: 10%; width: 10%;">
+			<img src="images/maptek_logo.png" alt="MapTek Logo" width="100%" height="auto">
+		</a>
+		<a class="navItem" href="/">Code Ability Test</a>
+	</nav>
+	
+	<div style="background-image: url('images/bg.jpg'); background-size: cover;">
+		<div class="container containerPadding">
+			<div class="row">
+				<div class="col-md-6 center">
+					<div class="loginForm">
+						<!-- Sign-in -->
+						<!--The action input (i.e. users/login_action) is the route which will be executed when the form is submitted.-->
+						<form method="post" action="/candidateLogin">
+							<h2>Candidate Login</h2>
+							<hr style="color: white; background-color: white;">
+							<!-- "sr-only" added for screen reader accessibility -->
+							<p class="formLabel">Email</p>
+							<label for="loginEmail" class="sr-only">Username</label>
+							<!-- autofocus to focus on this input when first accessing the page -->
+							<input name="email" type="email" id="loginEmail" class="form-control" placeholder="example@company.com" required autofocus>
+							<p class="formLabel">Password</p>
+							<label for="loginPassword" class="sr-only">Password</label>
+							<input name="password" type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
+							<br />
+							<p>Admin? <a href="admin_login.html">Click Here!</a></p>
+
+							<!-- Submit button -->
+							<button class="btn btn-primary" type="submit">Log in</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+	<footer>
+		<div class="footer">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-5 hidden-xs">
+						<a href="https://www.linkedin.com/company/maptek" target="_blank"><span class="glyphicon social_linkedin"></span></a>
+						<a href="https://www.facebook.com/Maptek" target="_blank"><span class="glyphicon social_facebook"></span></a>
+						<a href="https://www.maptek.com/category/news/feed/" target="_blank"><span class="glyphicon social_rss"></span></a>
+						<a href="https://twitter.com/maptek" target="_blank"><span class="glyphicon social_twitter"></span></a>
+						<a href="https://www.youtube.com/user/MaptekVideo" target="_blank"><span class="glyphicon social_youtube"></span></a>
+					</div>
+					<div class="col-sm-7 col-xs-12 pull-right">
+						<p class="text-right">©2020 Maptek Pty Ltd, All rights reserved <a href="https://www.maptek.com/about_maptek/copyright_information.html">Copyright&nbsp;Info</a> |&nbsp;<a href="https://www.maptek.com/about_maptek/privacy_policy.html">Privacy&nbsp;Policy</a>&nbsp;|&nbsp;<a href="https://www.maptek.com/sitemap.html">Site&nbsp;Map</a></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+	
+</body>
+
+
+</html>

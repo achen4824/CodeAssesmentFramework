@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Candidate Assessment Home</title>
+	<meta charset="utf-8">
+	<meta name="description" content="MapTek Coding Assessment Homepage">
+	<!-- jQuery CDN test-->
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+	<script src="javascripts/popper.min.js" defer></script>
+	<script src="javascripts/bootstrap.min.js" defer></script>
+
+	<!--Vue-->
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+	<!-- Ace: web code editor from https://ace.c9.io/ -->
+	<script src="javascripts/ace-src-min/ace.js" defer></script>
+
+	<!-- UI Candidate JS -->
+	<script src="javascripts/ui_candidate.js" defer></script>
+	<link rel="stylesheet" href="stylesheets/ui_candidate.css">
+
+	<!-- Style sheet for code editor -->
+	<link rel="stylesheet" href="stylesheets/editor.css">
+	<script defer src="javascripts/editor.js"></script>
+
+	<!-- Font Awesome JS -->
+	<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
+		integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
+		crossorigin="anonymous"></script>
+	<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
+		integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
+		crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+	<div id="app">
+		<!-- top Navigation bar -->
+		<nav id="top-bg" class="navbar navbar-expand-lg bg-dark navbar-dark"
+			style="-webkit-box-shadow: 0px -2px 15px 6px rgba(0,0,0,0.75);-moz-box-shadow: 0px -2px 15px 6px rgba(0,0,0,0.75);box-shadow: 0px -2px 15px 6px rgba(0,0,0,0.75);height: 55px;">
+			<div class="container-fluid">
+				<button type="button" id="sidebarCollapse" class="btn btn-info" @click="toggleNav = !toggleNav;">
+					<i class="fas fa-align-left"></i>
+					<span>Q</span>
+				</button>
+				<button type="button" id="sidebarCollapse" class="btn btn-info" @click="toggleQuestion = !toggleQuestion">
+					<i class="fas fa-align-left"></i>
+					<span>D</span>
+				</button>
+				<!-- Brand -->
+				<a class="navbar-brand pl-3" href="/candidate.html"><i class="fas fa-home"></i> <span>MAPTEK
+						Assessment</span></a>
+
+				<!-- Button used for toggling to drop down -->
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+					aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<!-- This navbar will collapse when screen is too small -->
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<!-- Left-align navbar -->
+					<ul class="navbar-nav ml-auto">
+						<li class="nav-item"><span class="navbar-text white-text">{{ displayName }}</span></li>
+						<li class="nav-item">
+							<button class="btn btn-outline-white btn-md my-2 my-sm-0 ml-3" v-on:click="logout">Log out</button>
+						</li>
+
+						<li class="nav-item">
+							<div class="custom-control custom-switch dark-mode-button" style="float: right;font-size:15px">
+								<input type="checkbox" class="custom-control-input" id="darkMode" v-model="darkMode"
+									@change="updateTheme">
+								<label class="custom-control-label" for="darkMode">Dark Mode</label>
+							</div>
+						</li>
+
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<div class="wrapper">
+			<!-- question nav bar -->
+			<nav id="sidebar" v-bind:class="{'active' : toggleNav}">
+				<div id="headsidebar">
+					<h4>Questions</h4>
+				</div>
+				<div v-for="(current, index) in test" @click="currentIndex=index">
+					<div class="questionitem" v-bind:class="{'active-question':current.question_id===question.question_id}">
+						<a>
+							<div class="showNavbar" v-bind:class="{'active' : toggleNav}">
+								<div style="display: inline-block; vertical-align: top;"><strong>Q{{index + 1}}:&nbsp;</strong></div><span class="navbar-question-title">{{current.title}}</span></div>
+						</a>
+					</div>
+				</div>
+
+				<!-- <div v-show="is_program_run">
+					<div style="margin:25px;" type="button" class="submit btn btn-danger btn-lg ">Program running...</div>
+				</div> -->
+			</nav>
+
+
+			<div id="content" class="content" :class="{'dark-mode':darkMode}">
+
+				<div id="question-section" style="float: right;" class="options" v-bind:class="{'hide' : !toggleQuestion, 'nohide' : toggleQuestion}" v-if="question!=null">
+					<div class="content-title">{{ test[currentIndex].title }}</div>
+					<div id="question-desc">
+						<p> {{ question.body }} </p>
+						<div v-if="hasImg">
+							<img v-bind:src="question.image" v-bind:alt="question.title" class="question-image" width="100%">
+						</div>
+						<div v-if="!hasImg && question.image">
+							<a class="btn btn-outline-success" :href="question.image" download>Click here to download attachment!</a>
+						</div>
+					</div>
+				</div>
+
+
+				<div id="code-section">
+					<div id="editor-tab">
+						<div class="content-title">Editor</div>
+
+						<div class="selector" v-if="question!=null">
+							<select class="form-control" id="sel1" v-model="currentType">
+								<option v-for="(type, index) in types" v-bind:value="type.value">
+									{{ type.name }}
+								</option>
+							</select>
+							<label>
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
+									stroke-linecap="round" stroke-linejoin="round">
+									<polyline points="6 9 12 15 18 9"></polyline>
+								</svg>
+							</label>
+						</div>
+					</div>
+
+					<div class="responseEditor">
+						<div class="editor" id="editor"></div>
+					</div>
+
+
+					<div id="button-bar">
+						<div class="content-title" id="output-title">Output</div>
+						<div>
+							<button title="CTRL+X" type="button" class="btn code-buttons" @click="run">Run</button>
+							<button title="CTRL+S" type="button" class="btn code-buttons" @click="save">Save</button>
+							<button type="button" class="btn code-buttons" @click="submit">Submit</button>
+						</div>
+					</div>
+
+
+					<pre id="terminalOutput" :class="{'dark-mode':darkMode}">
+							<div id="prompt" class="terminalEntry">$</div>
+						</pre>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

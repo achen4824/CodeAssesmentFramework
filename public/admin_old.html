@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Admin Interface</title>
+	<meta charset="utf-8">
+	<meta name="description" content="MAPTEK Coding Assessment Homepage">
+	<!-- jQuery CDN -->
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+	<script src="javascripts/bootstrap.min.js" defer></script>
+
+	<!--Vue-->
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+	<!-- Select2 -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+
+	<!--UI JS and CSS-->
+	<script src="javascripts/ui_admin.js" defer></script>
+	<link rel="stylesheet" type="text/css" href="stylesheets/ui_admin.css">
+</head>
+
+<body>
+	<div id="app">
+		<!-- Navigation bar -->
+		<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+			<div class="container" id="headers">
+				<!-- Brand -->
+				<a class="navbar-brand" href="/admin.html">MAPTEK Assessment</a>
+
+				<!-- Button used for toggling to drop down -->
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<!-- This navbar will collapse when screen is too small -->
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<!-- Left-align navbar -->
+					<ul class="navbar-nav ml-auto">
+						<li class="nav-item"><span class="navbar-text white-text">{{ displayName }}</span></li>
+						<li class="nav-item">
+							<button class="btn btn-outline-white btn-md my-2 my-sm-0 ml-3" v-on:click="logout">Log out</button>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="dropDownNav" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								Account
+							</a>
+							<div class="dropdown-menu" aria-labelledby="dropDownNav">
+								<button onclick="location.href = '/candidate_response.html';" class="dropdown-item">Candidate Responses</button>
+								<button v-on:click="seen = !seen" class="dropdown-item">Create Additional Admin</button>
+								<button v-on:click="toggle = !toggle" class="dropdown-item">Change Password</button>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<!-- The admin interface-->
+		<div class="container" id="main">
+			<div v-bind:class="{blurBox:!seen}" class="container">
+				<form id=candidateMake @submit="assignTestToCandidates">
+					<hr>
+					<h2>Candidate Details</h2>
+
+					<h3>Add candidates</h3>
+					<p>Add details for each candidate and click button below to add to this test.</p>
+					<!-- This button runs the function to add more candidate fields to be stored on the database when form is submitted-->
+					<button type="button" class="btn btn-primary" @click="save_candidates">Save Candidate(s)</button>
+					<button type="button" class="btn btn-secondary" @click="addNewCandidateForm">Add Candidate Field</button>
+					<hr>
+					<div class="addCandidate" v-for="(candidate, index) in candidates">
+						<span class="float-right" style="cursor:pointer" @click="deleteCandidateForm(index)">
+							x
+						</span>
+						<h3>Candidate {{index+1}}</h3>
+						<div class="form-group row">
+							<label for="firstname" class="col-sm-2 col-form-label">First Name</label>
+							<div class="col-sm-10">
+								<input type="name" class="form-control" id="firstname" placeholder="First Name" v-model="candidate.firstname" required>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="lastname" class="col-sm-2 col-form-label">Last Name</label>
+							<div class="col-sm-10">
+								<input type="name" class="form-control" id="lastname" placeholder="Last Name" v-model="candidate.lastname" required>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="email" class="col-sm-2 col-form-label">Email</label>
+							<div class="col-sm-10">
+								<input type="email" class="form-control" id="email" placeholder="Email" v-model="candidate.email" required>
+							</div>
+						</div>
+					</div>
+					<hr>
+
+					<h3>Current Candidates </h3>
+					<p>The following candidates are allocated for this test.</p>
+
+					<table class="table">
+						<thead class="thead-light">
+							<tr>
+								<th scope="col">ID</th>
+								<th scope="col">First Name</th>
+								<th scope="col">Last Name</th>
+								<th scope="col">Email</th>
+							</tr>
+						</thead>
+						<tbody v-for="(candidate, index) in savedCandidates">
+							<tr>
+								<th scope="row">{{index+1}}</th>
+								<td>{{candidate.firstname}}</td>
+								<td>{{candidate.lastname}}</td>
+								<td>{{candidate.email}}</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<hr>
+					<h2>Assign Assessment Questions</h2>
+					<!-- This form allows the admin to select multiple questions to assign-->
+					<!-- The questions are based on ID and name (i.e. Q<ID>: <Name>)-->
+					<div class="form-group">
+
+						<!-- This link will allow the admin to upload another question to the database-->
+						<a class="btn btn-primary" v-on:click="checked = !checked" href="#" role="button">Add additional question</a>
+						<hr>
+						<p>Select questions to assign to the candidate(s) and choose the due date for the assessment.</p>
+					</div>
+					<!-- This form allows the admin to select multiple questions to assign-->
+					<!-- The questions are based on ID and name (i.e. Q<ID>: <Name>)-->
+					<div class="form-group">
+						<!-- This list will be populated from the database-->
+
+						<!-- <p>Selected: {{ chosenQuestions }}</p> -->
+						<select id="multiple_search_box" class="js-example-basic-multiple" v-model='chosenQuestions' v-select="allQuestions" style="width: 100%" multiple></select>
+						<hr>
+					</div>
+					<div>
+						<div class="form-group row">
+							<label for="dueDate" class="col-sm-2 col-form-label">Due Date</label>
+							<div class="col-sm-10">
+								<input type="datetime-local" class="form-control" id="dueDate" v-model="testEndDate">
+							</div>
+						</div>
+						<button type="submit" value="submit" class="btn btn-primary btn-lg btn-block">Submit Invitation</button>
+						<hr>
+					</div>
+				</form>
+			</div>
+
+			<!--POP UP HTML-->
+			<!--This module is the popup form to create additional admin.-->
+			<div v-if="!seen" id="createAdminForm" class="container">
+				<form @submit="createAdmin">
+					<h1>Create Admin Account</h1>
+					<div v-if="!createAdminSuccess">
+						<!-- Print error messages, if any, when creating admin -->
+						<p v-if="createAdminErrors.length">
+							<b>Please correct the following error(s):</b>
+							<ul>
+								<li v-for="error in createAdminErrors">{{ error }}</li>
+							</ul>
+						</p>
+
+						<!-- Form fields -->
+						<label for="firstname">First Name</label>
+						<input type="text" v-model="firstname" placeholder="Enter First Name" name="firstname" class="form-control" required>
+
+						<label for="lastname">Last Name</label>
+						<input type="text" v-model="lastname" placeholder="Enter Last Name" name="lastname" class="form-control" required>
+
+						<label for="email">Email</label>
+						<input type="text" v-model="email" placeholder="Enter Email" name="email" class="form-control" required>
+						<br>
+						<p style="color:#616161;">Password will be automatically assigned and emailed to the accountholder.</p>
+						<!-- <label for="password">Password</label>
+						<input type="password" v-model="password" placeholder="Enter Password" name="password" class="form-control" required> -->
+
+					</div>
+
+					<!-- This will only show on sucessful creation of admin -->
+					<p v-if="createAdminSuccess">
+						Successfully created additional admin!
+					</p>
+
+					<button v-if="!createAdminSuccess" type="submit" value="submit" class="btn btn-primary">Submit</button>
+					<button class="btn btn-secondary" v-on:click="seen = !seen; createAdminSuccess=false">Close</button>
+				</form>
+			</div>
+
+			<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+			<!--This module is the popup form to create additional admin.-->
+			<div v-if="!toggle" id="createAdminForm" class="container">
+				<form @submit="changePassword">
+					<h1>Change Account Password</h1>
+					<div v-if="!changePasswordSuccess">
+						<!-- Print error messages, if any, when creating admin -->
+						<p v-if="changePasswordErrors.length">
+							<b>Please correct the following error(s):</b>
+							<ul>
+								<li v-for="error in changePasswordErrors">{{ error }}</li>
+							</ul>
+						</p>
+						<p>Use this form to change your password. Once changed, your new password will be in effect next time you login.</p>
+						<!-- Form fields -->
+						<label for="oldPassword">Current Password</label>
+						<input type="password" v-model="oldPassword" placeholder="Enter your current password" name="oldPassword" class="form-control" required>
+
+						<label for="newPassword">New Password</label>
+						<input type="password" v-model="newPassword" placeholder="Enter your new password" name="newPassword" class="form-control" required>
+						<br>
+
+
+					</div>
+
+					<!-- This will only show on sucessful creation of admin -->
+					<p v-if="changePasswordSuccess">
+						Successfully changed account password!
+					</p>
+
+					<button v-if="!changePasswordSuccess" type="submit" value="submit" class="btn btn-primary">Submit</button>
+					<button class="btn btn-secondary" v-on:click="toggle = !toggle; changePasswordSuccess=false">Close</button>
+				</form>
+			</div>
+			<!--This module is the popup form to upload a new question-->
+			<div v-if="!checked" id="uploadAdditionalQuestions" class="container">
+				<form id="uploadQuestionForm" method="post" @submit=uploadQuestion enctype="multipart/form-data">
+					<h1>Question Details</h1>
+					<div v-if="!uploadQuestionSuccess">
+						<!-- Print error messages, if any, when creating admin -->
+						<p v-if="uploadQuestionErrors.length">
+							<b>Please correct the following error(s):</b>
+							<ul>
+								<li v-for="error in uploadQuestionErrors">{{ error }}</li>
+							</ul>
+						</p>
+
+						<label for="title">Title</label>
+						<input type="text" name="title" v-model="title" placeholder="Enter question title" class="form-control" required>
+
+						<label for="body">Body</label>
+						<textarea type="text" name="body" v-model="body" placeholder="Enter question description" name="bodyDescription" class="form-control" required>
+						</textarea>
+
+						<label for="image">Upload File (.pdf, .jpeg, .jpg, .png, .txt only)</label>
+
+						<!-- Display option to upload image -->
+						<div v-if="!image">
+							<!-- <input type="file" name="file"> -->
+							<input type="file" name="file" ref="uploadedFile" @change="createImage">
+							<!-- <input type="file" name="file" @change="onFileChange"> -->
+						</div>
+						<!-- Display the image selected -->
+						<div v-else>
+							<img :src="image" />
+							<button @click="removeImage">Remove image</button>
+						</div>
+					</div>
+
+					<!-- This will only show on sucessful upload of question -->
+					<p v-if="uploadQuestionSuccess">
+						Successfully uploaded question!
+					</p>
+
+					<br>
+					<button v-if="!uploadQuestionSuccess" type="submit" type="submit" value="submit" class="btn btn-primary">Submit</button>
+					<button class="btn btn-secondary" v-on:click="checked=!checked; uploadQuestionSuccess=false">Close</button>
+				</form>
+			</div>
+
+			<div v-if="!seen" class="transBox">
+
+			</div>
+
+			<div v-if="!checked" class="transBox">
+
+			</div>
+
+			<div v-if="!toggle" class="transBox">
+
+			</div>
+		</div>
+	</div>
+
+</body>
+
+</html>

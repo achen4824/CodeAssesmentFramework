@@ -1,0 +1,7 @@
+/* Applied to all editors using ace*/
+.ace_editor {
+	font: 15px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+	margin: auto;
+	height: 200px;
+	width: 85%;
+} 

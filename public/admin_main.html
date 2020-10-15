@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Admin Interface</title>
+	<meta charset="utf-8">
+	<meta name="description" content="MAPTEK Coding Assessment Homepage">
+	<!-- jQuery CDN -->
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+	<script src="javascripts/bootstrap.min.js" defer></script>
+
+	<!--Vue-->
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+	<!-- Select2 -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+
+	<!--UI JS and CSS-->
+	<script src="javascripts/ui_admin_main.js" defer></script>
+	<link rel="stylesheet" type="text/css" href="stylesheets/ui_admin_main.css">
+	<link rel="stylesheet" type="text/css" href="stylesheets/colours.css">
+</head>
+
+<body>
+	<div id="app">
+		<!-- Navigation bar -->
+		<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+			<div class="container" id="headers">
+				<!-- Brand -->
+				<a class="navbar-brand" href="/admin.html">MAPTEK Assessment</a>
+
+				<!-- Button used for toggling to drop down -->
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+					aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<!-- This navbar will collapse when screen is too small -->
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<!-- Left-align navbar -->
+					<ul class="navbar-nav ml-auto">
+						<li class="nav-item"><span class="navbar-text white-text">{{ displayName }}</span></li>
+						<li class="nav-item">
+							<button class="btn btn-outline-white btn-md my-2 my-sm-0 ml-3" v-on:click="logout">Log out</button>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="dropDownNav" role="button" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false">
+								Account
+							</a>
+							<div class="dropdown-menu" aria-labelledby="dropDownNav">
+								<button onclick="location.href = '/candidate_response.html';" class="dropdown-item">Candidate
+									Responses</button>
+								<button v-on:click="seen = !seen" class="dropdown-item">Create Additional Admin</button>
+								<button v-on:click="toggle = !toggle" class="dropdown-item">Change Password</button>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<!-- The admin interface-->
+		<div id="content" v-bind:class="{showAddQuestion : 'blur'}">
+
+
+			<div id="row-panel">
+				<div id="question-panel"></div>
+
+				<div id="candidate-panel">
+
+					<!-- candidate search box -->
+					<div class="dropdown" id="select-candidate-container">
+						<input class="dropdown-input" id="select-candidate" type="text" v-model="candidateInput"
+							placeholder="Select Candidate" />
+
+						<div v-show="candidateInput" class="dropdown-list">
+							<div @click="selectItem(item)" v-show="itemVisible(item)" v-for="item in candidates" :key="item.id"
+								class="dropdown-item">
+								{{ item.firstname }} {{ item.lastname }}
+							</div>
+						</div>
+					</div>
+					<hr>
+
+					<div v-for="item in selectedCandidates" :key="item.id">
+						<div class="candidate-box">
+							{{ item.firstname }} {{ item.lastname }}
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+
+</body>
+
+</html>

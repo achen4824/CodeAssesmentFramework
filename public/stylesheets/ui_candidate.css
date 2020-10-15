@@ -1,0 +1,449 @@
+@import "colours.css";
+
+/*
+    This CSS is used for the UI candidate side to allow sidebar navigation for the assigned questions
+*/
+
+/*
+Editor CSS for positioning selector
+*/
+.dark-mode {
+    background: #333;
+    color: #999999;
+}
+
+.responseEditor {
+    display: inline-block;
+    position: relative;
+    background-color: #1d1f20;
+    flex: 3;
+}
+
+.showNavbar {
+    width: 100%;
+    display: inline-block;
+    vertical-align: middle;
+    white-space: nowrap;
+    transition: 0.3s all;
+    overflow: hidden;
+}
+
+.nohide{
+    width:40vw;
+}
+
+.hide{
+    width: 60px;
+}
+
+.code-buttons {
+    margin-right: 1.25rem;
+    margin-top: 0.25rem;
+}
+
+.navbar-question-title {
+    display: inline-block;
+    width: 180px;
+    white-space: normal;
+}
+
+.active .showNavbar {
+    width: 210px;
+}
+
+.active-question.questionitem {
+    position: relative;
+    color: white;
+    border-left: 4px solid #4D9D37;
+    /* background-color: #25282c; */
+    /* border-radius: 10px 0px 0px 10px; */
+}
+
+.questionitem {
+    cursor: pointer;
+    color: #bbbbbb;
+    padding: 7px 0px 7px 10px;
+    border-left: 4px solid transparent;
+    overflow-wrap: break-word;
+    /* margin: 5px 0px 5px 5px; */
+    /* float: right; */
+    /* border-style: hidden; */
+}
+
+#terminalOutput {
+    transition: 0.5s all ease;
+    flex: 1;
+    display: inline-block;
+    position: relative;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    height: 20%;
+    padding-left: 1rem;
+    border-left: 4px solid #EBEBEB;
+    margin: 0;
+
+    background-color: var(--background-secondary);
+    color: var(--foreground-secondary);
+}
+
+.dark-mode-button {
+    margin-left: 1rem;
+    color: #999999;
+}
+
+.dark-mode #terminalOutput {
+    border-left: 4px solid #25282C;
+}
+
+.terminalEntry {
+    overflow-wrap: break-word;
+    font: 16px/normal 'Inconsolata', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+}
+
+#editor {
+    width: 100%;
+    height: 100%;
+}
+
+.selector {
+    position: relative;
+    float: right;
+    padding-top: 5px;
+}
+
+.selector select {
+    position: relative;
+    margin: 5px;
+    width: 90px;
+    padding: 0 5px;
+    height: 30px;
+    color: #39464e;
+    font-family: -apple-system, BlinkMacSystemFont, "proxima-nova", "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 13px;
+    box-shadow: 0 0 0 1px #e9e9e9;
+    border-radius: 3px;
+    outline: none;
+    box-sizing: border-box;
+    vertical-align: middle;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    z-index: 0;
+}
+
+.selector label {
+    top: 10px;
+    bottom: 0px;
+    position: absolute;
+    right: 5px;
+    z-index: 1;
+}
+
+.options {
+    font-size: 15px;
+    padding: 10px;
+    color: #cfd0d1;
+    float: left;
+}
+
+.options span {
+    color: #cfd0d1;
+}
+
+.options span svg {
+    fill: currentColor;
+}
+
+.options span:hover {
+    cursor: pointer;
+    color: rgb(4, 136, 243);
+    fill: rgb(4, 136, 243);
+}
+
+/*
+css for entire candidate page
+*/
+
+body {
+    margin: 0px;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    background: #ebebeb;
+    height:100%;
+}
+
+#app {
+    display: flex;
+    flex-flow: column;
+}
+
+.btn, .btn-info {
+    /* border-color: #4D9D37; */
+    border: 0;
+    background-color: #4D9D37;
+}
+
+.btn:hover, .btn:active, .btn-info:hover, .btn-info:active {
+    border: 0;
+    background-color: #69d44b;
+}
+
+#top-bg {
+    background-color: #333333 !important;
+}
+
+h4 {
+    font-size: x-large;
+    align-self: center;
+    text-align: initial;
+    transition: 0.3s all ease;
+}
+
+.buttons {
+    margin: 5px;
+    height: 30px;
+    width: 100px;
+    transition: 0.3s all ease;
+    flex: 1;
+}
+
+p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1em;
+    font-weight: 300;
+    line-height: 1.7em;
+    color: #999;
+}
+
+a, a:hover, a:focus {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+i, span {
+    display: inline-block;
+}
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE: set the sidebar to be display differently based on  the active class being present or not being present;
+----------------------------------------------------- */
+
+.wrapper {
+    display: flex;
+    align-items: stretch;
+    flex: 1 1 auto;
+}
+
+#sidebar {
+    width: 60px;
+    /* HACK: App will take up 120% of sceen height without this both here and on #content. */
+    min-height: 94vh;
+    background-color: var(--background-focus);
+    color: var(--foreground-focus);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+#sidebar.active {
+    width: 260px;
+}
+
+#headsidebar {
+    padding: 10px 20px 10px 20px;
+}
+
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+
+#content {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    -webkit-box-shadow: 0px 0px 10px -1px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 0px 10px -1px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 10px -1px rgba(0, 0, 0, 0.75);
+    transition: 0.3s all ease;
+}
+
+.content-title {
+    color: #999999;
+    background-color: #EBEBEB;
+    font-size: larger;
+    padding: 10px;
+    width: 40vw;
+}
+
+.question-image {
+    min-width: 100px;
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2rem;
+    white-space: nowrap;
+    display: block;
+}
+
+#question-section {
+    padding: 0;
+    transition: 0.3s all ease;
+    height: 94vh;
+    overflow: hidden;
+}
+
+#question-desc {
+    width: 40vw;
+    padding: 10px;
+    overflow:scroll;
+    height:100%;
+}
+
+#code-section {
+    padding: 0;
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+}
+
+#editor-tab {
+    background-color: #EBEBEB;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#button-bar {
+    background-color: #EBEBEB;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-self: end;
+    width: 100%;
+}
+
+.dark-mode #editor-tab,
+.dark-mode #button-bar,
+.dark-mode .content-title {
+    background-color: #25282C;
+}
+
+#output-title {
+    flex: 10;
+}
+
+/* ---------------------------------------------------
+    MEDIAQUERIES: this allows the web app to be used with smaller screen, as the content is responsive;
+----------------------------------------------------- */
+
+@media (max-width: 768px) {
+    #sidebar {
+        min-width: 80px;
+        max-width: 80px;
+        text-align: center;
+        margin-left: -80px !important;
+    }
+    #sidebar.active {
+        margin-left: 0 !important;
+    }
+    #sidebar .sidebar-header h3 {
+        display: none;
+    }
+    #sidebar .sidebar-header strong {
+        display: block;
+    }
+    #sidebar ul li a {
+        padding: 20px 10px;
+    }
+    #sidebar ul li a span {
+        font-size: 0.85em;
+    }
+    #sidebar ul li a i {
+        margin-right: 0;
+        display: block;
+    }
+    #sidebar ul ul a {
+        padding: 10px !important;
+    }
+    #sidebar ul li a i {
+        font-size: 1.3em;
+    }
+    #sidebar {
+        margin-left: 0;
+    }
+    #sidebarCollapse span {
+        display: none;
+    }
+    #sidebar button {
+        font-size: 0em;
+    }
+    #sidebar.active button {
+        padding: 10px;
+        font-size: 0.8em;
+    }
+}
+
+.custom-control {
+    margin-top: 10px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 30px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked+.slider {
+    background-color: #2196F3;
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+.shadow {
+    -webkit-box-shadow: 0px 0px 10px -1px #999999aa;
+    -moz-box-shadow: 0px 0px 10px -1px #999999aa;
+    box-shadow: 0px 0px 10px -1px #999999aa;
+}
+

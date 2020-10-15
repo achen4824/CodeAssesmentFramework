@@ -1,0 +1,26 @@
+Background Colours:
+
+Green - Unpressed Buttons and Text Boxes - #4D9D37
+
+Light Grey - DEFAULT BACKGROUND (excluding IDE) - #e8e8e8
+Lighter Grey - IDE (Light Mode) Terminal and Coding Bars - #ebebeb
+White - IDE (Light Mode) Coding Space - #FFFFFF
+
+Darkest Grey-Blue - IDE (Dark Mode) Coding Space - #1D1F21
+Darker Grey-Blue - IDE (Dark Mode) Questions, Terminal and Coding Bars - #25282c
+Dark Grey-Blue - DEFAULT NAVBAR and IDE Sidebar - #343a40
+
+
+Font Colours:
+
+Green - Hyperlinks - #4D9D37
+Dark Grey - DEFAULT FONT COLOUR - #555555
+White - Button Text and Boxed Text - #FFFFFF
+
+
+Font Type and Sizes:
+
+font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+
+p and Tabs - 15px
+h2 - 34px

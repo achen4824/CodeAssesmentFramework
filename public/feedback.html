@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Candidate Assessment Home</title>
+	<meta charset="utf-8">
+	<meta name="description" content="MAPTEK Candidate Response">
+
+	<!-- jQuery CDN -->
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+	<script src="javascripts/bootstrap.min.js" defer></script>
+
+	<!-- Style sheet for code editor -->
+	<link rel="stylesheet" href="stylesheets/editor.css">
+
+	<!--Vue-->
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+	<!-- Select2 -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+
+	<!-- Ace: web code editor from https://ace.c9.io/ -->
+	<script src="javascripts/ace-src-min/ace.js" defer></script>
+
+	<!-- Style sheet for code editor -->
+	<link rel="stylesheet" href="stylesheets/editor.css">
+
+	<!--UI JS and CSS-->
+	<script src="javascripts/ui_admin_response.js" defer></script>
+	<link rel="stylesheet" type="text/css" href="stylesheets/ui_admin.css">
+</head>
+
+<body>
+	<div id="app">
+	<!-- header -->
+		<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+			<div class="container" id="headers">
+				<!-- Brand -->
+				<a class="navbar-brand" href="/admin.html">MAPTEK Assessment</a>
+
+				<!-- Button used for toggling to drop down -->
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<!-- This navbar will collapse when screen is too small -->
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<!-- Left-align navbar -->
+					<ul class="navbar-nav ml-auto">
+						<li class="nav-item"><span class="navbar-text white-text">{{ displayName }}</span></li>
+						<li class="nav-item">
+							<button class="btn btn-outline-white btn-md my-2 my-sm-0 ml-3" v-on:click="logout">Log out</button>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="dropDownNav" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								Account
+							</a>
+							<div class="dropdown-menu" aria-labelledby="dropDownNav">
+								<button onclick="location.href = '/admin.html';" class="dropdown-item">Assign Test To Candidates</button>
+								<button onclick="location.href = '/candidate_response.html';" class="dropdown-item">Candidate Responses</button>
+								<button v-on:click="seen = !seen" class="dropdown-item">Create Additional Admin</button>
+								<button v-on:click="toggle = !toggle" class="dropdown-item">Change Password</button>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<!-- Display responses -->
+		<div class = "containerdiv">
+			<!-- <div class = "col col-lg-2"> -->
+			<div>
+				<h3>{{selectedCandidateName}}'s Responses</h3>
+				<p>
+					Last saved time: {{selectedCandidateSavedTime}}<br/>
+					Last submitted time: {{selectedCandidateSubmittedTime}}<br />
+					Allocated Time to complete test by: {{selectedCandidateAllocatedEndTime}}<br />
+				</p>
+				<response-display v-bind:content="selectedCandidateResponses"></response-display>
+				<br />
+				<form @submit ="saveResponse">
+					<h3>Feedback:</h3>
+					<textarea class="resize" rows="auto" cols="auto" type="text" v-model="selectedCandidateFeedback" id="feedback"></textarea>
+					<hr cols = "90">
+					<div style = "text-align:center;">
+						<button type="submit" value="submit" class="btn btn-primary">Save Feedback</button>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<!--POP UP HTML-->
+			<!--This module is the popup form to create additional admin.-->
+			<div v-if="!seen" id="createAdminForm" class="container">
+				<form @submit="createAdmin">
+					<h1>Create Admin Account</h1>
+					<div v-if="!createAdminSuccess">
+						<!-- Print error messages, if any, when creating admin -->
+						<p v-if="createAdminErrors.length">
+							<b>Please correct the following error(s):</b>
+							<ul>
+								<li v-for="error in createAdminErrors">{{ error }}</li>
+							</ul>
+						</p>
+
+						<!-- Form fields -->
+						<label for="firstname">First Name</label>
+						<input type="text" v-model="firstname" placeholder="Enter First Name" name="firstname" class="form-control" required>
+
+						<label for="lastname">Last Name</label>
+						<input type="text" v-model="lastname" placeholder="Enter Last Name" name="lastname" class="form-control" required>
+
+						<label for="email">Email</label>
+						<input type="text" v-model="email" placeholder="Enter Email" name="email" class="form-control" required>
+						<br>
+						<p style="color:#616161;">Password will be automatically assigned and emailed to the accountholder.</p>
+						<!-- <label for="password">Password</label>
+						<input type="password" v-model="password" placeholder="Enter Password" name="password" class="form-control" required> -->
+
+					</div>
+
+					<!-- This will only show on sucessful creation of admin -->
+					<p v-if="createAdminSuccess">
+						Successfully created additional admin!
+					</p>
+
+					<button v-if="!createAdminSuccess" type="submit" value="submit" class="btn btn-primary">Submit</button>
+					<button class="btn btn-secondary" v-on:click="seen = !seen; createAdminSuccess=false">Close</button>
+				</form>
+			</div>
+
+			<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+			<!--This module is the popup form to create additional admin.-->
+			<div v-if="!toggle" id="createAdminForm" class="container">
+				<form @submit="changePassword">
+					<h1>Change Account Password</h1>
+					<div v-if="!changePasswordSuccess">
+						<!-- Print error messages, if any, when creating admin -->
+						<p v-if="changePasswordErrors.length">
+							<b>Please correct the following error(s):</b>
+							<ul>
+								<li v-for="error in changePasswordErrors">{{ error }}</li>
+							</ul>
+						</p>
+						<p>Use this form to change your password. Once changed, your new password will be in effect next time you login.</p>
+						<!-- Form fields -->
+						<label for="oldPassword">Current Password</label>
+						<input type="password" v-model="oldPassword" placeholder="Enter your current password" name="oldPassword" class="form-control" required>
+
+						<label for="newPassword">New Password</label>
+						<input type="password" v-model="newPassword" placeholder="Enter your new password" name="newPassword" class="form-control" required>
+						<br>
+
+
+					</div>
+
+					<!-- This will only show on sucessful creation of admin -->
+					<p v-if="changePasswordSuccess">
+						Successfully changed account password!
+					</p>
+
+					<button v-if="!changePasswordSuccess" type="submit" value="submit" class="btn btn-primary">Submit</button>
+					<button class="btn btn-secondary" v-on:click="toggle = !toggle; changePasswordSuccess=false">Close</button>
+				</form>
+			</div>
+	</div>
+</body>

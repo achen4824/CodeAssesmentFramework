@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Candidate Assessment Home</title>
+    <meta charset="utf-8">
+    <meta name="description" content="MapTek Coding Assessment Homepage">
+    
+    <!-- jQuery CDN -->
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script> 
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script src="javascripts/popper.min.js" defer></script>
+	<script src="javascripts/bootstrap.min.js" defer></script>
+    
+    <!--Vue-->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+    
+    <!-- UI Candidate JS -->
+    <script src="javascripts/ui_candidate_landing.js" defer></script>
+
+	<!-- Style Sheet -->
+    <link rel="stylesheet" type="text/css" href="stylesheets/index.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/candidate_landing.css">
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div id="app">
+        <nav class="nav navbar navbar-expand-sm bg-dark navbar-dark">
+            <!-- Brand -->
+            <a href="/candidate_landing.html" style="overflow: visible; padding-top: 2%; margin-left: 10%; width: 10%;">
+                <img src="images/maptek_logo.png" alt="MapTek Logo" width="100%" height="auto">
+            </a>
+            <a class="navItem" href="/candidate_landing.html">Home</a>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><span class="navbar-text white-text">{{ displayName }}</span></li>
+                <li class="nav-item">
+                    <button class="btn btn-outline-white btn-md my-2 my-sm-0 ml-3" v-on:click="logout">Log out</button>
+                </li>
+            </ul>
+        </nav>
+        <div class="row">
+            <!--Question Column-->
+            <div class="column">
+                <a href="/candidate.html"><h1>Questions</h1></a>
+                <hr style="color: black;">
+                <div>
+                    <div v-for="(current, index) in test" @click="currentIndex=index">
+                        <div class="questionitem listitem">
+                            <button class="collapsible" v-on:click="expandListItem(index)">&#8744</button>
+                            <a v-bind:href="'/candidate.html?q=' + index">
+                                <div>
+                                    <p>Q{{index + 1}}:{{current.title}}</p>
+                                    <p class="content">{{current.body}}</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--password change-->
+            <div class="column" style="margin-top: 0px; text-align: center;">
+                <h3 style="float:left;"> Update Password</h3>
+                <br>
+                <hr style="color: black;">
+
+                
+                <input id="nPword" type="password" placeholder="New Password">
+                <br>
+                <input id="cPword" type="password" placeholder="Confirm Password">
+                <br>
+                <button class="btn btn-primary" onclick="updatePassword()">Update</button>
+            </div>
+        </div>
+    </div>
+</body>

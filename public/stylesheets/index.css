@@ -1,0 +1,141 @@
+.loginForm {
+    margin: auto;
+    width: 75%;
+    border: 2px solid gray;
+    background-color: rgba(0,0,0, 0.5);
+    padding: 15px;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+}
+
+.containerPadding {
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
+
+.nav {
+    height: 50px;
+}
+
+.navItem {
+    margin-left: 10px;
+    color: white;
+    border-top: gray solid;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.center {
+    margin: auto;
+    width: 100%;
+    color: white;
+}
+
+.center h2 {
+    text-align: center;
+}
+
+.formInput {
+    background-color: rgba(0,0,0, 0);
+}
+
+.formLabel {
+    margin-top: 10px;
+    margin-bottom: 2px;
+}
+
+/* Admin page 'forgot password' popup. */
+#forgotPasswordForm {
+    padding:2%;
+    position: fixed;
+    left:50%;
+    top: 8%;
+    transform:translate(-50%, 0%);
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+    background-color: white;
+  }
+
+
+.blurBox {
+    filter:blur(10px);
+}
+
+.transBox {
+    padding:20%;
+    position:fixed;
+    left:0%;
+    top:0%;
+    height:100%;
+    width:100%;
+    background-color: black;
+    opacity: 0.5;
+}
+
+
+body{
+    font-family: "proxima-nova", Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.42857143;
+    color: #555555;
+    background-color: #fff;
+    }
+   
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    font-size: 12px;
+    border-top: 1px solid #ffffff;
+    padding: 15px;
+    height: 80px;
+    background-color: #cccccc;
+}
+
+.container {
+    width: auto;
+    max-width: 1170px;
+}
+
+.social_linkedin {
+    width: 32px;
+    height: 32px;
+    background: url(/images/social_sprite.png) 0 0;
+}
+.social_facebook {
+    width: 32px;
+    height: 32px;
+    background: url(/images/social_sprite.png) -32px 0;
+}
+
+.social_rss {
+    width: 32px;
+    height: 32px;
+    background: url(/images/social_sprite.png) -64px 0;
+}
+
+.social_youtube {
+    width: 32px;
+    height: 32px;
+    background: url(/images/social_sprite.png) -160px 0;
+}
+
+.social_twitter {
+    width: 32px;
+    height: 32px;
+    background: url(/images/social_sprite.png) -128px 0;
+}
+
+.glyphicon {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
